@@ -4,23 +4,31 @@ import os
 import sys
 from time import *
 import RPi.GPIO as GPIO
-import threading
+# import threading # this module is going to be used in future versions to enable the simultaneous addressing
+# of pumps and steppers.
 
-main_start=True
-main_stop=False
+main_start = True
+main_stop = False
 ##########################################################
-# Verwendete Pins am Rapberry Pi
-A=18
-B=23
-C=24
-D=25
-#Enable Treiber
-AA=8
-BB=7
+# Used pins from the raspberry pi GPIO interface
+A = 18
+B = 23
+C = 24
+D = 25
+# alternative code for pins:
+pins_stepper1 = {A: 18, B: 23, C: 24, D: 25}
+pins_stepper2 = {E: 5, F: 6, G: 13, H: 26}
+
+# alternative code for end switches
+stop_x = 27
+stop_y = 17
+# Enable Treiber (I think that is unnecessary) -> enable again if motor fails
+# AA=8
+# BB=7
 #Stop-Button
-STOP=27
-#0.3sec ist sehr langsam -> ohne Fehler
-#0.002sec ist ohne Fehler noch moeglich
+STOP = 27
+# 0.3 sec is very slow -> no stepping errors
+# 0.002 sec is possible withlut errors
 s100 = 0.005
 s75 = 0.01
 s50 = 0.025
