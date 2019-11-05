@@ -29,7 +29,23 @@ class Initialize(object):
         GPIO.setup(self.pins_stepper1["stop_1"], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.pins_stepper2["stop_2"], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         # gather in and out pins in two variables
-        self.out_pins = []  # TODO: ask GPIO whcih pins are defined as out and in pins.
+        self.out_pins = []
         self.in_pins = []
+        for value in self.pins_stepper1.values():
+            gpio_function = GPIO.gpio_function(value)
+            if gpio_function == 1:
+                self.in_pins.append(value)
+            elif gpio_function == 0:
+                self.out_pins.append(value)
+            else:
+                print("Pin with number {} is not defined.".format(value))
+        for value in self.pins_stepper2.values():
+            gpio_function = GPIO.gpio_function(value)
+            if gpio_function == 1:
+                self.in_pins.append(value)
+            elif gpio_function == 0:
+                self.out_pins.append(value)
+            else:
+                print("Pin with number {} is not defined.".format(value))
+        print("out pins: {}, in pins: {}".format(self.out_pins, self.in_pins))
 
-        out_pins = [A, B, C, D]
