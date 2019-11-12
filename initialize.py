@@ -1,6 +1,7 @@
 # raspberry
 # !/usr/bin/python
 import RPi.GPIO as GPIO
+import datetime
 
 
 class Initialize(object):
@@ -12,9 +13,6 @@ class Initialize(object):
         self.in_pins = []
         self.mask_dl = []
         self.mask_dr = []
-        # speeds: 0.3 sec is very slow -> no stepping errors
-        # 0.002 sec is possible without errors
-        self.speeds = {"s100": 0.005, "s75": 0.01, "s50": 0.025, "s25": 0.05, "s0": 0.1}
         # map pins to a stepper and end switch
         self.pins_stepper1 = {"A": 18, "B": 23, "C": 24, "D": 25, "stop_1": 27}
         self.pins_stepper2 = {"A": 5, "B": 6, "C": 13, "D": 26, "stop_2": 17}
@@ -72,20 +70,30 @@ class Initialize(object):
         stop_yB = 0
 
         def _stop_move_xA(stop):
+            print(str(datetime.datetime.now()))  # introducing this line of code solves the problem of this function
+            # always running into stop_xA = 0 with subsequent malfunction of dependant code after the first successful
+            # iteration. https://raspberrypi.stackexchange.com/questions/14105/how-does-python-gpio-bouncetime-parameter-work
+            print(GPIO.input(stop), " 2nd time")
             global stop_xA
             if GPIO.input(stop) == 0:  # end switch pressed
+                print(GPIO.input(stop), " inside the if clause")
                 stop_xA = 1
                 print("End switch A pressed.")
             else:  # end switch released or not pressed
+                print(GPIO.input(stop), " inside the else clause")
                 stop_xA = 0
                 print("End switch A released.")
 
         def _stop_move_yB(stop):
+            print(str(datetime.datetime.now()))
+            print(GPIO.input(stop), " 2nd time\n")
             global stop_yB
             if GPIO.input(stop) == 0:  # end switch pressed
+                print(GPIO.input(stop), " inside the if clause\n")
                 stop_yB = 1
                 print("End switch B pressed.")
             else:  # end switch released or not pressed
+                print(GPIO.input(stop), " inside the else clause\n")
                 stop_yB = 0
                 print("End switch B released.")
 
