@@ -1,5 +1,5 @@
+#!/usr/bin/env python3
 # raspberry
-# !/usr/bin/python
 import RPi.GPIO as GPIO
 import datetime
 
@@ -62,7 +62,7 @@ class Initialize(object):
         patterns = [[1, 0, 1, 0], [1, 0, 0, 1], [0, 1, 0, 1], [0, 1, 1, 0]]
         # turn stepper in direction "left"
         self.mask_dl = patterns[0:4]
-        # turn stepper in directin "right"
+        # turn stepper in direction "right"
         self.mask_dr = list(reversed(patterns[0:4]))
         # add 'global' statement to access stop_xA before function _stop_move was called.
         global stop_xA, stop_yB
@@ -70,30 +70,25 @@ class Initialize(object):
         stop_yB = 0
 
         def _stop_move_xA(stop):
-            print(str(datetime.datetime.now()))  # introducing this line of code solves the problem of this function
-            # always running into stop_xA = 0 with subsequent malfunction of dependant code after the first successful
-            # iteration. https://raspberrypi.stackexchange.com/questions/14105/how-does-python-gpio-bouncetime-parameter-work
-            print(GPIO.input(stop), " 2nd time")
+            print("{:%d. %b. %Y, %H:%M:%S }".format(datetime.datetime.now()))  # introducing this line of code solves
+            # the problem of this function always running into stop_xA = 0 with subsequent malfunction of dependant
+            # code after the first successful iteration.
+            # https://raspberrypi.stackexchange.com/questions/14105/how-does-python-gpio-bouncetime-parameter-work
             global stop_xA
             if GPIO.input(stop) == 0:  # end switch pressed
-                print(GPIO.input(stop), " inside the if clause")
                 stop_xA = 1
                 print("End switch A pressed.")
             else:  # end switch released or not pressed
-                print(GPIO.input(stop), " inside the else clause")
                 stop_xA = 0
                 print("End switch A released.")
 
         def _stop_move_yB(stop):
-            print(str(datetime.datetime.now()))
-            print(GPIO.input(stop), " 2nd time\n")
+            print("{:%d. %b. %Y, %H:%M:%S }".format(datetime.datetime.now()))
             global stop_yB
             if GPIO.input(stop) == 0:  # end switch pressed
-                print(GPIO.input(stop), " inside the if clause\n")
                 stop_yB = 1
                 print("End switch B pressed.")
             else:  # end switch released or not pressed
-                print(GPIO.input(stop), " inside the else clause\n")
                 stop_yB = 0
                 print("End switch B released.")
 
@@ -105,4 +100,3 @@ class Initialize(object):
                               GPIO.BOTH,
                               callback=_stop_move_yB,
                               bouncetime=200)
-

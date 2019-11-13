@@ -1,6 +1,5 @@
-#raspberry
-#!/usr/bin/python
-
+#!/usr/bin/env python3
+# raspberry
 import RPi.GPIO as GPIO
 from time import *
 import initialize as ini
@@ -25,11 +24,11 @@ class Move(object):
         step_counter_stepper_1 = 0
         self.maximum_steps_stepper_1 = 260
         step_counter_stepper_2 = 0
-        self.maximum_steps_stepper_2 = 330
+        self.maximum_steps_stepper_2 = 340
         self.total_sub_steps = len(self.system.mask_dl)
+        # steps for a 96 well plate.
         self.steps_stepper_1 = [43, 28, 27, 27, 28, 27, 28, 28]  # steps from positions zero to wells A - H.
-        self.steps_stepper_2 = []  # todo: find steps between wells. Info could come from a module which
-        # todo: stores steps for different plate formats.
+        self.steps_stepper_2 = [35, 28, 27, 27, 28, 27, 28, 27, 27, 28, 27, 28]  # steps from pos. 0 to wells 12 - 1.
 
     def move_initial(self, speed_1, speed_2):  # Could be improved by using threading and
         # running both steppers in parallel.
@@ -133,14 +132,14 @@ class Move(object):
                 step_counter_stepper_1 -= steps
         elif stepper == 2:
             global step_counter_stepper_2
-            total_steps = step_counter_stepper_2 - steps
-            if total_steps <= 0:
-                steps_remaining = step_counter_stepper_2
+            total_steps = step_counter_stepper_2 + steps
+            if total_steps >= self.maximum_steps_stepper_2:
+                steps_remaining = self.maximum_steps_stepper_2 - step_counter_stepper_2
                 print("Steps ({}) exceed number of remaining steps ({}). Program aborted.".format(steps,
                                                                                                   steps_remaining))
                 return
             else:
-                step_counter_stepper_2 -= steps
+                step_counter_stepper_2 += steps
         else:
             print("Argument '{}' for 'stepper' invalid. Please use '1' or '2'".format(stepper))
             return
@@ -191,14 +190,14 @@ class Move(object):
                 step_counter_stepper_1 += steps
         elif stepper == 2:
             global step_counter_stepper_2
-            total_steps = step_counter_stepper_2 + steps
-            if total_steps >= self.maximum_steps_stepper_2:
-                steps_remaining = self.maximum_steps_stepper_2 - step_counter_stepper_2
+            total_steps = step_counter_stepper_2 - steps
+            if total_steps <= 0:
+                steps_remaining = step_counter_stepper_2
                 print("Steps ({}) exceed number of remaining steps ({}). Program aborted.".format(steps,
                                                                                                   steps_remaining))
                 return
             else:
-                step_counter_stepper_2 += steps
+                step_counter_stepper_2 -= steps
         else:
             print("Argument '{}' for 'stepper' invalid. Please use '1' or '2'".format(stepper))
             return
