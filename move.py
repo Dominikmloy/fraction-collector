@@ -10,16 +10,20 @@ import initialize as ini
 class Move(object):
     """
     Holds all the commands and attributes to move both steppers. Move_initial and move_initial2 move
-    both steppers to position zero. move_left means that the stepper is turning left. The carriage, however, is
-    moving right due to the positioning of the steppers. Same is true for move_right.
+    both steppers to position 0/0 on the x/y grids coordinate system. move_left means that the stepper
+    is turning left. The carriage, however, is moving right due to the positioning of the steppers.
+    Same is true for move_right.
     """
     def __init__(self):
         # initialize components and wiring
+        # global step counter to know the exact position of the dispenser head
         global step_counter_stepper_1
         global step_counter_stepper_2
         # speeds: 0.3 sec is very slow -> no stepping errors
         # 0.002 sec is possible without errors
         self.speeds = {"s100": 0.005, "s75": 0.01, "s50": 0.025, "s25": 0.05, "s0": 0.1}
+        # Instantiate the class 'Initialize' from 'initialize.py' to enable access to its functions
+        # and to set up the mapping of the GPIO pins to the steppers and end switches.
         self.system = ini.Initialize()
         step_counter_stepper_1 = 0
         self.maximum_steps_stepper_1 = 260

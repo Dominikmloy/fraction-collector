@@ -5,15 +5,17 @@ import datetime
 
 
 class Initialize(object):
-    """This class initializes the fraction collector and resets it to position
-     0/0 on the x/y grids coordinate system. """
+    """ This class initializes the fraction collector. It maps the raspi's GPIO pins to
+    the steppers' coils and to the end switches. It defines the patterns to turn the
+    steppers in a specific direction and it holds the functions to enable the end switches.
+    """
     def __init__(self):
         # callable variables used in this Method
         self.out_pins = []
         self.in_pins = []
         self.mask_dl = []
         self.mask_dr = []
-        # map pins to a stepper and end switch
+        # map pins to a stepper and its end switch
         self.pins_stepper1 = {"A": 18, "B": 23, "C": 24, "D": 25, "stop_1": 27}
         self.pins_stepper2 = {"A": 5, "B": 6, "C": 13, "D": 26, "stop_2": 17}
 
