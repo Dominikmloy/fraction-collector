@@ -10,11 +10,11 @@ class Initialize(object):
     steppers in a specific direction and it holds the functions to enable the end switches.
     """
     def __init__(self):
-        # callable variables used in this Method
+        # callable variables used in this method
         self.out_pins = []
         self.in_pins = []
-        self.mask_dl = []
-        self.mask_dr = []
+        self.mask_dl = []  # pattern to turn the stepper left
+        self.mask_dr = []  # pattern to turn the stepper right
         # map pins to a stepper and its end switch
         self.pins_stepper1 = {"A": 18, "B": 23, "C": 24, "D": 25, "stop_1": 27}
         self.pins_stepper2 = {"A": 5, "B": 6, "C": 13, "D": 26, "stop_2": 17}
