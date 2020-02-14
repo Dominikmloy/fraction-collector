@@ -3,8 +3,6 @@
 import RPi.GPIO as GPIO
 from time import *
 import initialize as ini
-# import threading # this module is going to be used in future versions to enable the simultaneous addressing
-# of pumps and steppers.
 
 
 class Move(object):
@@ -26,11 +24,12 @@ class Move(object):
         # and to set up the mapping of the GPIO pins to the steppers and end switches.
         self.system = ini.Initialize()
         step_counter_stepper_1 = 0
-        self.maximum_steps_stepper_1 = 260
+        self.maximum_steps_stepper_1 = 260  # dependent on the fraction collectors dimensions
         step_counter_stepper_2 = 0
-        self.maximum_steps_stepper_2 = 340
+        self.maximum_steps_stepper_2 = 340  # dependent on the fraction collectors dimensions
         self.total_sub_steps = len(self.system.mask_dl)
-        # steps for a 96 well plate.
+        # steps for a 96 well plate. These steps were found empirically, that's why the steps between wells
+        # are different from each other. They compensate the offset of steps to the well plate's dimensions.
         self.steps_stepper_1 = [43, 28, 27, 27, 28, 27, 28, 28]  # steps from positions zero to wells A - H.
         self.steps_stepper_2 = [35, 28, 27, 27, 28, 27, 28, 27, 27, 28, 27, 28]  # steps from pos. 0 to wells 12 - 1.
 
@@ -53,6 +52,11 @@ class Move(object):
                 count_sub_steps += 1
                 if count_sub_steps >= self.total_sub_steps:  # one step was completed
                     count_sub_steps = 0
+                    # the next three lines of code set the output of all pins to 0, probably slowing down
+                    # or preventing the heating of the motor drivers.
+                    for pin in range(len(self.system.mask_dl)):  # elements in mask_dl
+                        pin_id = self.system.out_pins[pin]
+                        GPIO.output(pin_id, False)
                 sleep(speed_1)
             sleep(0.5)
             # drive first stepper until end switch is released.
@@ -68,6 +72,11 @@ class Move(object):
                 count_sub_steps += 1
                 if count_sub_steps >= self.total_sub_steps:  # one step was completed
                     count_sub_steps = 0
+                    # the next three lines of code set the output of all pins to 0, probably slowing down
+                    # or preventing the heating of the motor drivers.
+                    for pin in range(len(self.system.mask_dr)):
+                        pin_id = self.system.out_pins[pin]
+                        GPIO.output(pin_id, False)
                 sleep(speed_2)
         except KeyboardInterrupt:
             GPIO.cleanup()
@@ -93,6 +102,11 @@ class Move(object):
                 count_sub_steps += 1
                 if count_sub_steps >= self.total_sub_steps:  # one step was completed
                     count_sub_steps = 0
+                    # the next three lines of code set the output of all pins to 0, probably slowing down
+                    # or preventing the heating of the motor drivers.
+                    for pin in range(len(self.system.mask_dr)):
+                        pin_id = self.system.out_pins[pin]
+                        GPIO.output(pin_id, False)
                 sleep(speed_1)
             sleep(0.5)
             # drive first stepper until end switch is released.
@@ -109,6 +123,11 @@ class Move(object):
                 count_sub_steps += 1
                 if count_sub_steps >= self.total_sub_steps:  # one step was completed
                     count_sub_steps = 0
+                    # the next three lines of code set the output of all pins to 0, probably slowing down
+                    # or preventing the heating of the motor drivers.
+                    for pin in range(len(self.system.mask_dl)):
+                        pin_id = self.system.out_pins[pin]
+                        GPIO.output(pin_id, False)
                 sleep(speed_2)
         except KeyboardInterrupt:
             GPIO.cleanup()
@@ -170,6 +189,11 @@ class Move(object):
                 count_sub_steps += 1
                 if count_sub_steps >= self.total_sub_steps:  # one step was completed
                     count_sub_steps = 0
+                    # the next three lines of code set the output of all pins to 0, probably slowing down
+                    # or preventing the heating of the motor drivers.
+                    for pin in range(len(self.system.mask_dl)):
+                        pin_id = self.system.out_pins[pin]
+                        GPIO.output(pin_id, False)
                 sleep(speed)
         except KeyboardInterrupt:
             GPIO.cleanup()
@@ -177,10 +201,10 @@ class Move(object):
 
     def move_right(self, stepper, steps, speed):
         """
-            This function moves target stepper (1 or 2) the target number of steps to the right (counter-clockwise).
-            Speed variable is taken from initialize.py. Steps taken are added to the step counter.
-            If the step threshold is crossed, a warning is printed and the program aborts.
-            """
+        This function moves target stepper (1 or 2) the target number of steps to the right (counter-clockwise).
+        Speed variable is taken from initialize.py. Steps taken are added to the step counter.
+        If the step threshold is crossed, a warning is printed and the program aborts.
+        """
         # check if maximum number of steps is exceeded
         if stepper == 1:
             global step_counter_stepper_1
@@ -228,6 +252,11 @@ class Move(object):
                 count_sub_steps += 1
                 if count_sub_steps >= self.total_sub_steps:  # one step was completed
                     count_sub_steps = 0
+                    # the next three lines of code set the output of all pins to 0, probably slowing down
+                    # or preventing the heating of the motor drivers.
+                    for pin in range(len(self.system.mask_dr)):
+                        pin_id = self.system.out_pins[pin]
+                        GPIO.output(pin_id, False)
                 sleep(speed)
         except KeyboardInterrupt:
             GPIO.cleanup()
