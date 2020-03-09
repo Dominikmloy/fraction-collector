@@ -52,11 +52,7 @@ class Move(object):
                 count_sub_steps += 1
                 if count_sub_steps >= self.total_sub_steps:  # one step was completed
                     count_sub_steps = 0
-                    # the next three lines of code set the output of all pins to 0, probably slowing down
-                    # or preventing the heating of the motor drivers.
-                    for pin in range(len(self.system.mask_dl)):  # elements in mask_dl
-                        pin_id = self.system.out_pins[pin]
-                        GPIO.output(pin_id, False)
+
                 sleep(speed_1)
             sleep(0.5)
             # drive first stepper until end switch is released.
@@ -84,6 +80,11 @@ class Move(object):
             return False
         global step_counter_stepper_1
         step_counter_stepper_1 = 0
+        # the next three lines of code set the output of all pins to 0, probably slowing down
+        # or preventing the heating of the motor drivers.
+        for pin in range(len(self.system.mask_dl)):  # elements in mask_dl
+            pin_id = self.system.out_pins[pin]
+            GPIO.output(pin_id, False)
 
     def move_initial2(self, speed_1, speed_2):
         """Calling this function moves stepper two to the starting position and resets
@@ -102,11 +103,7 @@ class Move(object):
                 count_sub_steps += 1
                 if count_sub_steps >= self.total_sub_steps:  # one step was completed
                     count_sub_steps = 0
-                    # the next three lines of code set the output of all pins to 0, probably slowing down
-                    # or preventing the heating of the motor drivers.
-                    for pin in range(len(self.system.mask_dr)):
-                        pin_id = self.system.out_pins[pin]
-                        GPIO.output(pin_id, False)
+
                 sleep(speed_1)
             sleep(0.5)
             # drive first stepper until end switch is released.
@@ -135,6 +132,11 @@ class Move(object):
             return False
         global step_counter_stepper_2
         step_counter_stepper_2 = 0
+        # the next three lines of code set the output of all pins to 0, probably slowing down
+        # or preventing the heating of the motor drivers.
+        for pin in range(len(self.system.mask_dr)):
+            pin_id = self.system.out_pins[pin]
+            GPIO.output(pin_id, False)
 
     def move_left(self, stepper, steps, speed):
         """
@@ -189,15 +191,16 @@ class Move(object):
                 count_sub_steps += 1
                 if count_sub_steps >= self.total_sub_steps:  # one step was completed
                     count_sub_steps = 0
-                    # the next three lines of code set the output of all pins to 0, probably slowing down
-                    # or preventing the heating of the motor drivers.
-                    for pin in range(len(self.system.mask_dl)):
-                        pin_id = self.system.out_pins[pin]
-                        GPIO.output(pin_id, False)
+
                 sleep(speed)
         except KeyboardInterrupt:
             GPIO.cleanup()
             return False
+        # the next three lines of code set the output of all pins to 0, probably slowing down
+        # or preventing the heating of the motor drivers.
+        for pin in range(len(self.system.mask_dl)):
+            pin_id = self.system.out_pins[pin]
+            GPIO.output(pin_id, False)
 
     def move_right(self, stepper, steps, speed):
         """
@@ -252,12 +255,13 @@ class Move(object):
                 count_sub_steps += 1
                 if count_sub_steps >= self.total_sub_steps:  # one step was completed
                     count_sub_steps = 0
-                    # the next three lines of code set the output of all pins to 0, probably slowing down
-                    # or preventing the heating of the motor drivers.
-                    for pin in range(len(self.system.mask_dr)):
-                        pin_id = self.system.out_pins[pin]
-                        GPIO.output(pin_id, False)
+
                 sleep(speed)
         except KeyboardInterrupt:
             GPIO.cleanup()
             return False
+        # the next three lines of code set the output of all pins to 0, probably slowing down
+        # or preventing the heating of the motor drivers.
+        for pin in range(len(self.system.mask_dr)):
+            pin_id = self.system.out_pins[pin]
+            GPIO.output(pin_id, False)
