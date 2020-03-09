@@ -68,11 +68,7 @@ class Move(object):
                 count_sub_steps += 1
                 if count_sub_steps >= self.total_sub_steps:  # one step was completed
                     count_sub_steps = 0
-                    # the next three lines of code set the output of all pins to 0, probably slowing down
-                    # or preventing the heating of the motor drivers.
-                    for pin in range(len(self.system.mask_dr)):
-                        pin_id = self.system.out_pins[pin]
-                        GPIO.output(pin_id, False)
+
                 sleep(speed_2)
         except KeyboardInterrupt:
             GPIO.cleanup()
@@ -120,11 +116,7 @@ class Move(object):
                 count_sub_steps += 1
                 if count_sub_steps >= self.total_sub_steps:  # one step was completed
                     count_sub_steps = 0
-                    # the next three lines of code set the output of all pins to 0, probably slowing down
-                    # or preventing the heating of the motor drivers.
-                    for pin in range(len(self.system.mask_dl)):
-                        pin_id = self.system.out_pins[pin]
-                        GPIO.output(pin_id, False)
+
                 sleep(speed_2)
         except KeyboardInterrupt:
             GPIO.cleanup()
