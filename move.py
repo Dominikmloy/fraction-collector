@@ -78,9 +78,9 @@ class Move(object):
         step_counter_stepper_1 = 0
         # the next three lines of code set the output of all pins to 0, probably slowing down
         # or preventing the heating of the motor drivers.
-        for pin in range(len(self.system.mask_dl)):  # elements in mask_dl
-            pin_id = self.system.out_pins[pin]
-            GPIO.output(pin_id, False)
+        #for pin in range(len(self.system.mask_dl)):  # elements in mask_dl
+        #    pin_id = self.system.out_pins[pin]
+        #    GPIO.output(pin_id, False)
 
     def move_initial2(self, speed_1, speed_2):
         """Calling this function moves stepper two to the starting position and resets
@@ -126,9 +126,9 @@ class Move(object):
         step_counter_stepper_2 = 0
         # the next three lines of code set the output of all pins to 0, probably slowing down
         # or preventing the heating of the motor drivers.
-        for pin in range(len(self.system.mask_dr)):
-            pin_id = self.system.out_pins[pin]
-            GPIO.output(pin_id, False)
+        #for pin in range(len(self.system.mask_dr)):
+        #    pin_id = self.system.out_pins[pin]
+        #    GPIO.output(pin_id, False)
 
     def move_left(self, stepper, steps, speed):
         """
