@@ -1,79 +1,62 @@
-# Fraction Collector
-This repository holds python code for and anything related to the fraction collector program that is part of a larger program that controls the microfluidic nanoparticle production system. 
-*One Paragraph of project description goes here*
+# Fraction Collector - Collection Module
+This repository holds python code for and anything related to the fraction collector program 
+that is part of a larger program that controls the microfluidic nanoparticle production system. 
+The paper describing the system is currently in submission. A link to the paper will be posted here 
+as soon as it is published.
 
 ## Getting Started
-1. Download all files and save them to one dedicated folder on your raspberry pi.
+1. Download all python files and save them to one dedicated folder on your raspberry pi.
 2. Run main.py with a python interpreter (python version 3.x, tested on v. 3.7).
 3. Follow the instructions printed by the console.
 
-*These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.*
-
 ### Prerequisites
+All modules used in this program are installed by default in Raspbian. 
+To make sure that the RPi.GPIO module is at the latest version check out this Wiki entry on the homepage of the project:
+https://sourceforge.net/p/raspberry-gpio-python/wiki/install/
 
-*What things you need to install the software and how to install them*
-
-```
-Give examples
-```
 
 ### Installing
 
-*A step by step series of examples that tell you how to get a development env running*
+1. Start the raspberry pi, connect to it via ssh or use it in desktop mode. 
+2. Use the command line to navigate to the desired folder the program should be written to.
+3. Use ‘git’ to copy the syringe pump repository from GitHub to the Raspberry pi.
+    ```
+    git clone https://github.com/Dominikmloy/fraction-collector-program.git
+    ```
+    If the folder already exists, you will get an error.
+    --> Either remove the folder (CAVE: It deletes all your logs!) and execute git clone again.
+    ```
+    rm -r fraction-collector-program
+    git clone https://github.com/Dominikmloy/fraction-collector-program.git
+    ```
+    -->	Or update your repository:
+    ```
+    cd fraction-collector-program
+    git pull origin master
+     ```
+4. open the repository and start the example program "main.py" to see how the fraction collector works
+    ```
+    sudo python3 main.py
+    ```
+    A video of the execution of this example program is published here as well: 
+    ```
+    FractionCollector_DominikLoy.mp4
+    ```    
 
-*Say what the step will be*
-
-```
-Give the example
-```
-
-*And repeat*
-
-```
-until finished
-```
-
-*End with an example of getting some data out of the system or using it for a little demo*
-
-## Running the tests
-
-*Explain how to run the automated tests for this system*
-
-### Break down into end to end tests
-
-*Explain what these tests test and why*
-
-```
-Give an example
-```
-
-### And coding style tests
-
-*Explain what these tests test and why*
-
-```
-Give an example
-```
-
-## Deployment
-
-*Add additional notes about how to deploy this on a live system*
 
 ## Built With
-
-
+* PyCharm 2019.1.3
 
 ## Versioning
-
-
+* Version 1.0
 
 ## Authors
 
 * **Dominik Loy** 
 
 ## License
-
-TBA
+CC BY 4.0
+https://creativecommons.org/licenses/by/4.0/
 ## Acknowledgments
 
 * **Adrian Loy** - proof reading, answering millions of questions, python wizard - 
